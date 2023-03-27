@@ -45,9 +45,10 @@ class StockRepository extends ServiceEntityRepository
 
     /**
      * @throws Exception
-     */
+
     public function findOneById(int $id)
     {
         throw new Exception("Function not defined: findOneById(int \$id");
     }
+     */
 }
