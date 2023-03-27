@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Provider\SearchResultProvider;
 use DateTime;
+use Scheb\YahooFinanceApi\Exception\ApiException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +28,7 @@ class SearchController extends AbstractController
 
     /**
      * Execute the search
+     * @throws ApiException
      */
     #[Route(path: '/searchResult', name: 'stock_search_result')]
     public function searchResultAction(Request $request): Response
