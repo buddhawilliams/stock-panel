@@ -1,4 +1,4 @@
-{% extends "basePage.html.twig" %}
+{% extends "base.html.twig" %}
 
 
 {% block title %}{{ parent() }} &ndash; Search{% endblock %}
@@ -17,7 +17,7 @@
 
 {% block body %}
     <form class="well" id="search-form">
-        <p><input type="term" class="form-control" id="searchTerm" placeholder="Search stocks"></p>
+        <p><input type="text" class="form-control" id="searchTerm" placeholder="Search stocks"></p>
     </form>
 
     <div id="search-result">
@@ -29,24 +29,34 @@
 
 {% block bottom %}
     <script type="text/javascript">
-        /* <![CDATA[ */
+        /* <![CDATA[ */>
+
         let timeout;
+        let search_term = document.getElementById("searchTerm")
+        let search_result = document.getElementById("search-result")
 
         function onKeyType() {
             clearTimeout(timeout);
-            const term = $("#searchTerm").val();
+            const term = search_term.value;
             timeout = setTimeout(function () {
-                $("#search-result").load("{{ path("stock_search_result") }}?term=" + encodeURI(term));
+                fetch("{{ path("stock_search_result") }}?term=" + encodeURI(term))
+                    .then((response) => response.text())
+                    .then((data) => {
+                        let output = data;
+                        search_result.innerHTML=output;
+                    })
+                ;
             }, 200);
         }
 
         //Listen for key type event
-        $("#searchTerm").keyup(onKeyType);
+        search_term.addEventListener("keyup", onKeyType);
 
         //Check for preset
-        if ($("#searchTerm").val().length > 0) {
+        if (search_term.value.length > 0) {
             onKeyType();
         }
         /* ]]> */
+        
     </script>
 {% endblock %}
