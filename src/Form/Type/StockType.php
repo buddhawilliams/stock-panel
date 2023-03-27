@@ -11,17 +11,17 @@ class StockType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $currencies = ["EUR" => "EUR", "USD" => "USD"];
+        $currencies = ["AUD" => "AUD", "EUR" => "EUR", "USD" => "USD"];
         $builder
             ->add("symbol", null, ['label' => 'Symbol'])
             ->add("name", null, ['label' => 'Name'])
-            ->add("currency", ChoiceType::class, ['choices' => $currencies, 'label' => 'Währung'])
-            ->add("initialPrice", NumberType::class, ['label' => 'Erster Kurs'])
-            ->add("quantity", NumberType::class, ['label' => 'Anzahl'])
-            ->add("displayChart", null, ['required' => false, 'label' => 'Chart anzeigen?']);
+            ->add("currency", ChoiceType::class, ['choices' => $currencies, 'label' => 'Currency'])
+            ->add("initialPrice", NumberType::class, ['label' => 'Initial Price'])
+            ->add("quantity", NumberType::class, ['label' => 'Quantity'])
+            ->add("displayChart", null, ['required' => false, 'label' => 'Display Chart?']);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return "stock";
     }

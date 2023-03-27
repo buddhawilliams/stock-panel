@@ -7,17 +7,19 @@ use App\Provider\StockPriceProvider;
 use App\Repository\StockRepository;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PanelController extends AbstractController
 {
     public function __construct(
-        private StockPriceProvider $stockPriceProvider,
-        private StockRepository $stockRepo
+        private readonly StockPriceProvider $stockPriceProvider,
+        private readonly StockRepository $stockRepo
     ) {
     }
 
@@ -58,6 +60,12 @@ class PanelController extends AbstractController
 
     /**
      * Get JSON data for the chart
+     * @param int $id
+     * @param string $range
+     * @param Request $request
+     * @return Response
+     * @throws NotFoundHttpException;
+
      */
     #[Route(path: '/charts/{id}/{range}.json', name: 'stock_charts_data')]
     public function getChartData(int $id, string $range, Request $request): Response
@@ -79,6 +87,8 @@ class PanelController extends AbstractController
             $response = $client->get($url);
         } catch (ClientException $e) {
             throw $this->createNotFoundException('Client error: ' . $e->getMessage(), $e);
+        } catch (GuzzleException $e) {
+            throw $this->createNotFoundException('Guzzle Error: ' . $e->getMessage(), $e);
         }
 
         $json = json_decode($response->getBody(), true);
@@ -86,7 +96,7 @@ class PanelController extends AbstractController
             throw $this->createNotFoundException('Timestamps not found');
         }
         if (!isset($json['chart']['result'][0]['indicators']['quote'][0]['close'])) {
-            throw $this->createNotFoundException('Closing pricees not found');
+            throw $this->createNotFoundException('Closing prices not found');
         }
 
         $dataPrice = [];

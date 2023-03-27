@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -37,10 +39,10 @@ class Stock
     private ?float $currentChange;
 
     #[ORM\Column(name: 'createdAt', type: 'datetime')]
-    private \DateTimeInterface $createdAt;
+    private DateTimeInterface $createdAt;
 
     #[ORM\Column(name: 'updatedAt', type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $updatedAt;
+    private ?DateTimeInterface $updatedAt;
 
     #[ORM\Column(name: 'displayChart', type: 'boolean')]
     private bool $displayChart = true;
@@ -50,7 +52,7 @@ class Stock
      */
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////// CONVENIENCE
@@ -59,7 +61,7 @@ class Stock
      * Return invested money
      * @return float|null
      */
-    public function getInvestment()
+    public function getInvestment(): float|null
     {
         if ($this->quantity && $this->initialPrice) {
             return $this->quantity * $this->initialPrice;
@@ -71,7 +73,7 @@ class Stock
     /**
      * Get current value of investment
      */
-    public function getCurrentValue()
+    public function getCurrentValue(): float|null
     {
         if ($this->quantity && $this->initialPrice && $this->currentPrice) {
             return $this->quantity * $this->currentPrice;
@@ -82,9 +84,9 @@ class Stock
 
     /**
      * Return profit
-     * @return float
+     * @return float|null
      */
-    public function getProfit()
+    public function getProfit(): ?float
     {
         if ($this->quantity && $this->initialPrice && $this->currentPrice) {
             return $this->getCurrentValue() - $this->getInvestment();
@@ -97,7 +99,7 @@ class Stock
      * Return profit percentage
      * @return float
      */
-    public function getProfitPercent()
+    public function getProfitPercent(): float
     {
         return $this->getProfit() / $this->getInvestment();
     }
@@ -106,7 +108,7 @@ class Stock
      * Get percent of current change
      * @return float
      */
-    public function getCurrentChangePercent()
+    public function getCurrentChangePercent(): float
     {
         $oldPrice = $this->currentPrice - $this->currentChange;
         if ($oldPrice) {
@@ -120,7 +122,7 @@ class Stock
     /**
      * @return integer
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -128,16 +130,16 @@ class Stock
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * @param string $name
-     * @return \App\Entity\Stock
+     * @return Stock
      */
-    public function setName($name)
+    public function setName(string $name): static
     {
         $this->name = $name;
         return $this;
@@ -145,9 +147,9 @@ class Stock
 
     /**
      * @param string $symbol
-     * @return \App\Entity\Stock
+     * @return Stock
      */
-    public function setSymbol($symbol)
+    public function setSymbol(string $symbol): static
     {
         $this->symbol = $symbol;
         return $this;
@@ -156,7 +158,7 @@ class Stock
     /**
      * @return string
      */
-    public function getSymbol()
+    public function getSymbol(): string
     {
         return $this->symbol;
     }
@@ -164,16 +166,16 @@ class Stock
     /**
      * @return string
      */
-    public function getCurrency()
+    public function getCurrency(): string
     {
         return $this->currency;
     }
 
     /**
      * @param string $currency
-     * @return \App\Entity\Stock
+     * @return Stock
      */
-    public function setCurrency($currency)
+    public function setCurrency(string $currency): static
     {
         $this->currency = $currency;
         return $this;
@@ -181,107 +183,107 @@ class Stock
 
     /**
      * @param float $quantity
-     * @return \App\Entity\Stock
+     * @return Stock
      */
-    public function setQuantity($quantity)
+    public function setQuantity(float $quantity): static
     {
         $this->quantity = $quantity;
         return $this;
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getQuantity()
+    public function getQuantity(): ?float
     {
         return $this->quantity;
     }
 
     /**
      * @param float $initialPrice
-     * @return \App\Entity\Stock
+     * @return Stock
      */
-    public function setInitialPrice($initialPrice)
+    public function setInitialPrice(float $initialPrice): static
     {
         $this->initialPrice = $initialPrice;
         return $this;
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getInitialPrice()
+    public function getInitialPrice(): ?float
     {
         return $this->initialPrice;
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getCurrentPrice()
+    public function getCurrentPrice(): ?float
     {
         return $this->currentPrice;
     }
 
     /**
      * @param float $currentPrice
-     * @return \App\Entity\Stock
+     * @return Stock
      */
-    public function setCurrentPrice($currentPrice)
+    public function setCurrentPrice(float $currentPrice): static
     {
         $this->currentPrice = $currentPrice;
         return $this;
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getCurrentChange()
+    public function getCurrentChange(): ?float
     {
         return $this->currentChange;
     }
 
     /**
      * @param float $currentChange
-     * @return \App\Entity\Stock
+     * @return Stock
      */
-    public function setCurrentChange($currentChange)
+    public function setCurrentChange(float $currentChange): static
     {
         $this->currentChange = $currentChange;
         return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTimeInterface|null
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
     /**
-     * @param \DateTime $updatedAt
-     * @return \App\Entity\Stock
+     * @param DateTime $updatedAt
+     * @return Stock
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime|DateTimeInterface
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime|DateTimeInterface
     {
         return $this->createdAt;
     }
 
     /**
-     * @param \DateTime $createdAt
-     * @return \App\Entity\Stock
+     * @param DateTime $createdAt
+     * @return Stock
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
         return $this;
@@ -290,7 +292,7 @@ class Stock
     /**
      * @return boolean
      */
-    public function isDisplayChart()
+    public function isDisplayChart(): bool
     {
         return $this->displayChart;
     }
@@ -300,7 +302,7 @@ class Stock
      *
      * @return Stock
      */
-    public function setDisplayChart($displayChart)
+    public function setDisplayChart(bool $displayChart): static
     {
         $this->displayChart = $displayChart;
         return $this;

@@ -4,7 +4,9 @@ namespace App\Provider;
 
 use App\Entity\Stock;
 use App\Repository\StockRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Scheb\YahooFinanceApi\ApiClient;
 use Scheb\YahooFinanceApi\Exception\ApiException;
 use Scheb\YahooFinanceApi\Results\Quote;
@@ -17,14 +19,15 @@ class StockPriceProvider
     private StockRepository $stockRepo;
 
     public function __construct(
-        private EntityManagerInterface $em,
-        private ApiClient $api
+        private readonly EntityManagerInterface $em,
+        private readonly ApiClient              $api
     ) {
         $this->stockRepo = $em->getRepository(Stock::class);
     }
 
     /**
      * @return Stock[]
+     * @throws Exception
      */
     public function getStocksAndUpdate(): array
     {
@@ -40,8 +43,7 @@ class StockPriceProvider
      */
     public function getStocks(): array
     {
-        $stocks = $this->stockRepo->getAll();
-        return $stocks;
+        return $this->stockRepo->getAll();
     }
 
     public function createStock(string $symbol): Stock
@@ -69,7 +71,7 @@ class StockPriceProvider
             $stock
                 ->setCurrentPrice($this->getCurrentPrice($quote))
                 ->setCurrentChange($this->getCurrentChange($quote))
-                ->setUpdatedAt(new \DateTime());
+                ->setUpdatedAt(new DateTime());
             $this->em->persist($stock);
         }
         $this->em->flush();
@@ -91,16 +93,21 @@ class StockPriceProvider
             : $quote->getRegularMarketChange();
     }
 
+    /**
+     * @throws Exception
+     */
     public function hasToUpdate(): bool
     {
-        $timeout = new \DateTime("-" . self::UPDATE_PERIOD_MINUTES . " minutes");
+        $timeout = new DateTime("-" . self::UPDATE_PERIOD_MINUTES . " minutes");
         return $this->stockRepo->getLastUpdate() < $timeout;
     }
 
     /**
-     * @return Quote[]
+     * @param array $symbols
+     * @param int $try
+     * @return array<Quote>
      */
-    private function fetchData(array $symbols, int $try = 0): ?array
+    private function fetchData(array $symbols, int $try = 0): array
     {
         if (!$symbols) {
             return [];
