@@ -1,18 +1,18 @@
 {% extends "base.html.twig" %}
 
 
-{% block title %}{{ parent() }} &ndash; Aktie bearbeiten{% endblock %}
+{% block title %}{{ parent() }} &ndash; Edit a Share{% endblock %}
 
 
 {% block body %}
     <div class="container py-3">
-        <h1>Aktie bearbeiten</h1>
+        <h1>Edit Share</h1>
         <form class="stock-form panel panel-default" action="{{ path("stock_edit", {"id": id}) }}" method="POST">
             <div class="panel-body">
                 {{ form_widget(form) }}
             </div>
             <div class="panel-footer">
-                <button type="submit" class="btn btn-primary"><span class="bi bi-save2"></span> Speichern
+                <button type="submit" class="btn btn-primary"><span class="bi bi-save2"></span> Update
                 </button>
             </div>
         </form>

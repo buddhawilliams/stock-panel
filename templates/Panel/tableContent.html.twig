@@ -9,12 +9,12 @@
     </colgroup>
     <thead>
     <tr>
-        <th>Aktie</th>
-        <th class="d-none d-sm-table-cell isPrivate">Anzahl</th>
-        <th class="d-none d-sm-table-cell">Kauf</th>
-        <th class="d-none d-sm-table-cell">Aktuell</th>
+        <th>Share</th>
+        <th class="d-none d-sm-table-cell isPrivate">Number</th>
+        <th class="d-none d-sm-table-cell">Buying</th>
+        <th class="d-none d-sm-table-cell">Current</th>
         <th>Profit</th>
-        <th>Heute</th>
+        <th>Today</th>
     </tr>
     </thead>
     <tbody>
@@ -22,7 +22,7 @@
         <tr>
             <th>
                 <div>
-                    <a href="http://finance.yahoo.com/q?s={{ stock.symbol }}" rel="external">{{ stock.name }}</a>
+                    <a href="https://finance.yahoo.com/q?s={{ stock.symbol }}" rel="external">{{ stock.name }}</a>
                     <span class="actions">
                         <a href="{{ path("stock_edit", {"id": stock.id}) }}" class="btn btn-primary px-1 py-0"><span class="bi bi-pencil-fill"></span></a>
                         <button class="btn btn-danger px-1 py-0" data-delete-stock="{{ stock.id }}"><span class="bi bi-x-circle-fill"></span></button>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>{% block title %}Stock Panel{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@
     <div class="container-lg d-flex">
         <nav class="flex-grow-1">
             <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item"><a href="{{ path("stock_table") }}" class="nav-link px-2 {% if app.request.attributes.get('_route') == "stock_table" %} active{% endif %}">Tabelle</a></li>
+                <li class="nav-item"><a href="{{ path("stock_table") }}" class="nav-link px-2 {% if app.request.attributes.get('_route') == "stock_table" %} active{% endif %}">Table</a></li>
                 <li class="nav-item"><a href="{{ path("stock_charts") }}" class="nav-link px-2 {% if app.request.attributes.get('_route') == "stock_charts" %} active{% endif %}">Charts</a></li>
             </ul>
         </nav>
