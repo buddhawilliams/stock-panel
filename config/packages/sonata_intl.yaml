@@ -1,7 +1,9 @@
 sonata_intl:
     timezone:
         locales:
+            au: Australia/Perth
+            en: Europe/London
             de: Europe/Berlin
-        default: Europe/Berlin
+        default: Australia/Perth
         detectors:
             - sonata.intl.timezone_detector.locale_aware
