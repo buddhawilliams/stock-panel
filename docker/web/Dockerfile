@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 LABEL Description="Share Portfolio" Vendor="Corestar" Version="0.1"
 
@@ -21,7 +21,7 @@ RUN docker-php-ext-install pdo_mysql intl gd \
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=. --filename=composer \
     && mv composer /usr/local/bin \
-    && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini 
+    && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
 RUN true \
     && echo "upload_max_filesize = 16M" > /usr/local/etc/php/conf.d/other.ini \
