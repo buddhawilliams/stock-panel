@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  web:
+    container_name: app-stock-panel
+    build:
+      context: ./docker/web
+      dockerfile: Dockerfile
+    ports:
+      - "8083:81"
+      - "8084:82"
+    networks:
+      - public
+    volumes:
+      - .:/var/www/html/stock-panel
+      - ./docker/config/sites-enabled:/etc/apache2/sites-enabled
+
+networks:
+  public:
