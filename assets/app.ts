@@ -57,7 +57,7 @@ function initDeleteButtons() {
         .forEach((deleteButton: Element) => {
             if (deleteButton instanceof HTMLButtonElement) {
                 deleteButton.addEventListener('click', () => {
-                    if (window.confirm('Aktie entfernen?')) {
+                    if (window.confirm('Delete Stock?')) {
                         window.location.href = '/delete/'+ deleteButton.dataset['deleteStock'];
                     }
                 })
