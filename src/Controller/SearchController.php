@@ -43,7 +43,7 @@ class SearchController extends AbstractController
         $response = $this->render("Search/result.html.twig", [
             'result' => $result,
         ]);
-        $response->setExpires(new \DateTime("+1 hours"));
+        $response->setExpires(new DateTime("+1 hours"));
         return $response;
     }
 }

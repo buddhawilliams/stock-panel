@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Stock;
 use App\Provider\StockPriceProvider;
 use App\Repository\StockRepository;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -36,6 +37,7 @@ class PanelController extends AbstractController
 
     /**
      * Show the stock panel
+     * @throws Exception
      */
     #[Route(path: '/', name: 'stock_table')]
     public function tableAction(): Response
@@ -48,6 +50,7 @@ class PanelController extends AbstractController
 
     /**
      * Show the stock panel
+     * @throws Exception
      */
     #[Route(path: '/charts', name: 'stock_charts')]
     public function chartsAction(): Response
@@ -139,6 +142,7 @@ class PanelController extends AbstractController
 
     private function getStock(int $id): ?Stock
     {
+        // This uses built in methods of ServiceEntityRepository. You don't define the method.
         return $this->stockRepo->findOneById($id);
     }
 }

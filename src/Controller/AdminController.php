@@ -90,6 +90,7 @@ class AdminController extends AbstractController
 
     private function getStock(int $id): ?Stock
     {
+        // This uses built in methods of ServiceEntityRepository. You don't define the method.
         return $this->stockRepository->findOneById($id);
     }
 }

@@ -42,13 +42,4 @@ class StockRepository extends ServiceEntityRepository
         $lastUpdate = $qb->getQuery()->getSingleScalarResult();
         return $lastUpdate ? new DateTime($lastUpdate) : new DateTime("-1 day");
     }
-
-    /**
-     * @throws Exception
-
-    public function findOneById(int $id)
-    {
-        throw new Exception("Function not defined: findOneById(int \$id");
-    }
-     */
 }
